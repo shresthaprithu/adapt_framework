@@ -48,28 +48,6 @@ define([
         }
         return selectorScrollTop.apply(this, arguments);
       };
-      const selectorOffset = $.fn.offset;
-      $.fn.offset = function(coordinates) {
-        if (coordinates) {
-          return selectorOffset.apply(this, arguments);
-        }
-        const $app = Adapt.scrolling.$app;
-        const $element = this;
-        const elementOffset = selectorOffset.call($element);
-        const isCorrectedContainer = $element.is('html, body, #app') ||
-          $element.parents().is('#app');
-        if (!isCorrectedContainer) {
-          // Do not adjust the offset measurement as not in $app container and isn't html or body
-          return elementOffset;
-        }
-        // Adjust measurement by scrolling and offset of $app container
-        const scrollTop = parseInt($app.scrollTop());
-        const scrollLeft = parseInt($app.scrollLeft());
-        const appOffset = selectorOffset.call($app);
-        elementOffset.top += (scrollTop - appOffset.top);
-        elementOffset.left += (scrollLeft - appOffset.left);
-        return elementOffset;
-      };
     }
 
     _fixScrollTo() {
